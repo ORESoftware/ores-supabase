@@ -1,0 +1,16 @@
+{
+  "$schema": "./schemas/catalog.schema.json",
+  "version": 1,
+  "github": {
+    "organization": "ORESoftware",
+    "repository": "ORESoftware/ores-supabase",
+    "defaultBranch": "main"
+  },
+  "supabaseOrganization": {
+    "id": "zmkmcdyrryxxhleytdho",
+    "name": "oresoftware"
+  },
+  "canonicalProjectRef": null,
+  "projects": []
+}
+
