@@ -1,5 +1,5 @@
 import { access, readFile, readdir } from 'node:fs/promises';
-import { dirname, join, normalize, relative, resolve, sep } from 'node:path';
+import { join, relative, resolve, sep } from 'node:path';
 import process from 'node:process';
 import Ajv2020 from 'ajv/dist/2020.js';
 import addFormats from 'ajv-formats';
@@ -55,6 +55,27 @@ function requireFields(value, fields, label) {
   for (const field of fields) {
     if (!(field in value)) fail(`${label}: missing ${field}`);
   }
+}
+
+function parseApiSchemas(config, label) {
+  const apiSection = config.match(/^\[api\]\s*$([\s\S]*?)(?=^\[|\Z)/m)?.[1] ?? '';
+  if (!apiSection) {
+    fail(`${label}: config.toml must declare [api] explicitly`);
+    return [];
+  }
+  if (!/^enabled\s*=\s*true$/m.test(apiSection)) {
+    fail(`${label}: [api] must be explicitly enabled`);
+  }
+  const raw = apiSection.match(/^schemas\s*=\s*\[([^\]]*)\]\s*$/m)?.[1];
+  if (raw === undefined) {
+    fail(`${label}: [api].schemas must be explicit`);
+    return [];
+  }
+  const schemas = [...raw.matchAll(/"([A-Za-z0-9_]+)"/g)].map((match) => match[1]);
+  const residue = raw.replace(/"[A-Za-z0-9_]+"/g, '').replace(/[\s,]/g, '');
+  if (residue) fail(`${label}: [api].schemas contains unsupported syntax`);
+  if (new Set(schemas).size !== schemas.length) fail(`${label}: [api].schemas contains duplicates`);
+  return schemas;
 }
 
 const catalogPath = join(root, 'catalog.json');
@@ -152,9 +173,13 @@ if (catalog) {
       if (!new RegExp(`^project_id\\s*=\\s*"${entry.ref}"$`, 'm').test(config)) {
         fail(`${entry.target}: config.toml project_id must equal the hosted project ref`);
       }
-      if (!/^auto_expose_new_tables\s*=\s*false$/m.test(config)) {
-        fail(`${entry.target}: config.toml must require explicit Data API grants`);
+      const apiSchemas = parseApiSchemas(config, entry.target);
+      for (const schema of apiSchemas) {
+        if (!['public', 'graphql_public'].includes(schema)) {
+          fail(`${entry.target}: [api].schemas must not expose internal schema ${schema}`);
+        }
       }
+      if (!apiSchemas.includes('public')) fail(`${entry.target}: [api].schemas must include public`);
       if (/^enable_signup\s*=\s*true$/m.test(config)) {
         fail(`${entry.target}: config.toml must not bypass the shared-auth signup boundary`);
       }
