@@ -10,7 +10,15 @@
     "id": "zmkmcdyrryxxhleytdho",
     "name": "oresoftware"
   },
-  "canonicalProjectRef": null,
-  "projects": []
+  "canonicalProjectRef": "sznvdzulwlaghrrpiebd",
+  "projects": [
+    {
+      "ref": "szzbuljocwprjhaqnbvb",
+      "target": "projects/szzbuljocwprjhaqnbvb/target.json"
+    },
+    {
+      "ref": "sznvdzulwlaghrrpiebd",
+      "target": "projects/sznvdzulwlaghrrpiebd/target.json"
+    }
+  ]
 }
-
