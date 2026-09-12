@@ -10,3 +10,7 @@ env/dec/
 *.key
 projects/*/supabase/.branches/
 projects/*/supabase/.temp/
+
+# Sanctioned scratch locations - AGENTS.md requires both, trailing-slash form
+tmp/
+temp/
