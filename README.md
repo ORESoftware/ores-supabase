@@ -1,8 +1,10 @@
 # ores-supabase
 
-Git-backed Supabase provider overlays for [`oresoftware`](https://supabase.com/dashboard/org/zmkmcdyrryxxhleytdho), mapped to [`ORESoftware`](https://github.com/ORESoftware).
+Git-backed Supabase provider inventory/read-back and temporary provider overlays for [`oresoftware`](https://supabase.com/dashboard/org/zmkmcdyrryxxhleytdho), mapped to [`ORESoftware`](https://github.com/ORESoftware).
 
 `ORESoftware` is a GitHub user namespace rather than a GitHub Organization. It is the explicit owner-namespace exception for this otherwise organization-oriented mapping.
+
+> **Ownership boundary:** product deployment state belongs in each product's `*-infra` repository. This repository keeps fleet/provider inventory and reviewed provider evidence; its existing project-specific Supabase files are compatibility-frozen rather than a second product deployment authority. See [`ownership.json`](./ownership.json) and [`docs/ownership-boundary.md`](./docs/ownership-boundary.md).
 
 ## Project inventory
 
@@ -21,13 +23,14 @@ The catalog is `catalog.json`; each hosted project has a machine-readable `targe
 
 ## Authority
 
-- Cross-database persistence contracts: the target's `contractSource`, preferring `*-lib-core`.
-- Supabase-only provider overlays: this repository.
+- Cross-database persistence contracts: the target's `contractSource`, preferring `*-lib-core` / `*-interfaces`.
+- Product-specific Supabase/Neon deployment bindings, migrations, functions, and environment wiring: the owning product `*-infra` repository.
+- Supabase account/project inventory, provider read-back, reviewed baseline/RLS/grant/security evidence, and temporary frozen compatibility overlays: this repository.
 - Explicit convergence and drift analysis: [`declarative-migrations/declarative-postgres-migrate.rs`](https://github.com/declarative-migrations/declarative-postgres-migrate.rs).
-- Fleet target registry and verification: [`ORESoftware/k8s-libs-and-shared-defs`](https://github.com/ORESoftware/k8s-libs-and-shared-defs).
+- Fleet shared infrastructure invariants and target verification: [`ORESoftware/k8s-libs-and-shared-defs`](https://github.com/ORESoftware/k8s-libs-and-shared-defs).
 - API, authentication, and synchronization dependencies remain owned by [`ORESoftware/api-docs`](https://github.com/ORESoftware/api-docs), [`shared-auth`](https://github.com/shared-auth), and [`opto-sync`](https://github.com/opto-sync).
 
-Supabase and AWS RDS Postgres may be intentionally out of step. No automated job treats catalog equality as an invariant.
+Supabase and AWS RDS/Postgres or Neon may be intentionally out of step. No automated job treats catalog equality as an invariant.
 
 ## Current gate
 
@@ -39,6 +42,7 @@ Run:
 
 ```sh
 just validate
+python3 scripts/validate-ownership.py
 ```
 
-See `docs/architecture.md`, `docs/schema-authority.md`, and `docs/github-integration.md`.
+See `docs/architecture.md`, `docs/schema-authority.md`, `docs/github-integration.md`, and `docs/ownership-boundary.md`.
