@@ -1,0 +1,44 @@
+[package]
+org = "oresoftware"
+name = "ores-supabase"
+version = "0.1.0"
+description = "Git-backed Supabase provider inventory, reviewed read-back evidence, and provider overlay contracts"
+language = "typescript"
+
+[package.repository]
+vcs = "git"
+url = "https://github.com/ORESoftware/ores-supabase"
+
+# Fleet-level Supabase/Postgres invariants and shared target verification live
+# in k8s-libs-and-shared-defs. Product migrations remain product-owned and are
+# intentionally not centralized here.
+[dependencies]
+"oresoftware/k8s-libs-and-shared-defs" = "^0.2.0"
+
+[install]
+dir = ".vendor/.zed"
+
+[build]
+command = "npm ci && npm test"
+outputs = ["catalog.json", "ownership.json", "projects", "schemas", "docs"]
+
+[targets.repository]
+dir = "."
+adapter = "none"
+
+[publish]
+include_readme = true
+tag_format = "v{version}"
+exclude = [
+  ".env",
+  ".env.*",
+  ".vendor/.zed/**",
+  ".zed/**",
+  ".zed-pack/**",
+  "node_modules/**",
+  "tmp/**",
+  "**/*.log",
+]
+
+[scripts]
+test = "npm ci && npm test && python3 scripts/validate-ownership.py"
