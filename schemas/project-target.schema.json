@@ -204,9 +204,9 @@
         "automaticBranching",
         "supabaseChangesOnly",
         "deployToProduction",
-        "verifiedAt",
         "branchProtection",
-        "providerReadback"
+        "providerReadback",
+        "verifiedAt"
       ],
       "properties": {
         "provider": {
@@ -228,17 +228,6 @@
         },
         "deployToProduction": {
           "type": "boolean"
-        },
-        "verifiedAt": {
-          "oneOf": [
-            {
-              "type": "null"
-            },
-            {
-              "type": "string",
-              "format": "date-time"
-            }
-          ]
         },
         "branchProtection": {
           "type": "object",
@@ -300,6 +289,17 @@
               ]
             }
           }
+        },
+        "verifiedAt": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "format": "date-time"
+            }
+          ]
         }
       }
     },
