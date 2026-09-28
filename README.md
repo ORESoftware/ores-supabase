@@ -38,6 +38,15 @@ All discovered targets begin with Git integration `planned` and baseline `pendin
 
 Current Supabase guidance separates local `[api].schemas` configuration from hosted Data API grants/default privileges. This repository therefore constrains exposed schemas in `supabase/config.toml`, while hosted grants/default privileges remain an explicit provider verification item; it does not invent a non-standard `auto_expose_new_tables` TOML field.
 
+## Shared fleet contract
+
+`shared-defs.lock.json` pins contract version `1.0.0` and immutable commit
+`577fb7fb67444266e2f13b0945811c320c82f26c` from
+`ORESoftware/k8s-libs-and-shared-defs`. Validation compares normalized schema
+digests, so local schema identifiers may remain relative while their behavior
+cannot drift from the reviewed fleet contract. The Zed coordinate is
+`oresoftware/supabase-gitops-contract`.
+
 Run:
 
 ```sh

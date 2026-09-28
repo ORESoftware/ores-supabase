@@ -38,7 +38,16 @@
     "automaticBranching": false,
     "supabaseChangesOnly": true,
     "deployToProduction": false,
-    "verifiedAt": null
+    "verifiedAt": null,
+    "branchProtection": {
+      "state": "pending",
+      "requiredCheck": "validate",
+      "verifiedAt": null
+    },
+    "providerReadback": {
+      "state": "pending",
+      "verifiedAt": null
+    }
   },
   "baseline": {
     "state": "pending",

@@ -17,84 +17,288 @@
     "dependencies"
   ],
   "$defs": {
-    "projectRef": { "type": "string", "pattern": "^[a-z]{20}$" },
-    "repository": { "type": "string", "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$" },
-    "relativePath": { "type": "string", "pattern": "^(?:\\.|[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*)$" },
+    "projectRef": {
+      "type": "string",
+      "pattern": "^[a-z]{20}$"
+    },
+    "repository": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+    },
+    "relativePath": {
+      "type": "string",
+      "pattern": "^(?:\\.|[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*)$"
+    },
     "optionalRelativePath": {
       "oneOf": [
-        { "type": "null" },
-        { "$ref": "#/$defs/relativePath" }
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/relativePath"
+        }
       ]
     }
   },
   "properties": {
-    "$schema": { "type": "string" },
-    "version": { "const": 1 },
-    "githubOrganization": { "type": "string", "pattern": "^[A-Za-z0-9_.-]+$" },
+    "$schema": {
+      "type": "string"
+    },
+    "version": {
+      "const": 1
+    },
+    "githubOrganization": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.-]+$"
+    },
     "supabaseOrganization": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "name"],
+      "required": [
+        "id",
+        "name"
+      ],
       "properties": {
-        "id": { "$ref": "#/$defs/projectRef" },
-        "name": { "type": "string", "minLength": 1 }
+        "id": {
+          "$ref": "#/$defs/projectRef"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        }
       }
     },
     "project": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["ref", "slug", "status", "region", "environment", "canonical"],
+      "required": [
+        "ref",
+        "slug",
+        "status",
+        "region",
+        "environment",
+        "canonical"
+      ],
       "properties": {
-        "ref": { "$ref": "#/$defs/projectRef" },
-        "slug": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
-        "status": { "type": "string", "enum": ["active", "paused"] },
-        "region": { "type": "string", "minLength": 1 },
-        "environment": { "type": "string", "enum": ["development", "staging", "production"] },
-        "canonical": { "type": "boolean" }
+        "ref": {
+          "$ref": "#/$defs/projectRef"
+        },
+        "slug": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "paused"
+          ]
+        },
+        "region": {
+          "type": "string",
+          "minLength": 1
+        },
+        "environment": {
+          "type": "string",
+          "enum": [
+            "development",
+            "staging",
+            "production"
+          ]
+        },
+        "canonical": {
+          "type": "boolean"
+        }
       }
     },
     "contractSource": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["repository", "branch", "authorityTier", "state", "rootDirectory", "sqlDesiredState", "jsonSchemaDirectory"],
+      "required": [
+        "repository",
+        "branch",
+        "authorityTier",
+        "state",
+        "rootDirectory",
+        "sqlDesiredState",
+        "jsonSchemaDirectory"
+      ],
       "properties": {
-        "repository": { "$ref": "#/$defs/repository" },
-        "branch": { "type": "string", "minLength": 1 },
-        "authorityTier": { "type": "string", "enum": ["lib-core", "lib-fallback", "legacy-interfaces"] },
-        "state": { "type": "string", "enum": ["unresolved", "partial", "ready"] },
-        "rootDirectory": { "$ref": "#/$defs/relativePath" },
-        "sqlDesiredState": { "$ref": "#/$defs/optionalRelativePath" },
-        "jsonSchemaDirectory": { "$ref": "#/$defs/optionalRelativePath" }
+        "repository": {
+          "$ref": "#/$defs/repository"
+        },
+        "branch": {
+          "type": "string",
+          "minLength": 1
+        },
+        "authorityTier": {
+          "type": "string",
+          "enum": [
+            "lib-core",
+            "lib-fallback",
+            "legacy-interfaces"
+          ]
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "unresolved",
+            "partial",
+            "ready"
+          ]
+        },
+        "rootDirectory": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "sqlDesiredState": {
+          "$ref": "#/$defs/optionalRelativePath"
+        },
+        "jsonSchemaDirectory": {
+          "$ref": "#/$defs/optionalRelativePath"
+        }
       }
     },
     "providerOverlay": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["repository", "branch", "workingDirectory", "supabaseDirectory", "migrationsDirectory", "functionsDirectory", "configPath"],
+      "required": [
+        "repository",
+        "branch",
+        "workingDirectory",
+        "supabaseDirectory",
+        "migrationsDirectory",
+        "functionsDirectory",
+        "configPath"
+      ],
       "properties": {
-        "repository": { "$ref": "#/$defs/repository" },
-        "branch": { "type": "string", "minLength": 1 },
-        "workingDirectory": { "$ref": "#/$defs/relativePath" },
-        "supabaseDirectory": { "$ref": "#/$defs/relativePath" },
-        "migrationsDirectory": { "$ref": "#/$defs/relativePath" },
-        "functionsDirectory": { "$ref": "#/$defs/relativePath" },
-        "configPath": { "$ref": "#/$defs/relativePath" }
+        "repository": {
+          "$ref": "#/$defs/repository"
+        },
+        "branch": {
+          "type": "string",
+          "minLength": 1
+        },
+        "workingDirectory": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "supabaseDirectory": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "migrationsDirectory": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "functionsDirectory": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "configPath": {
+          "$ref": "#/$defs/relativePath"
+        }
       }
     },
     "gitIntegration": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["provider", "state", "automaticBranching", "supabaseChangesOnly", "deployToProduction", "verifiedAt"],
+      "required": [
+        "provider",
+        "state",
+        "automaticBranching",
+        "supabaseChangesOnly",
+        "deployToProduction",
+        "branchProtection",
+        "providerReadback",
+        "verifiedAt"
+      ],
       "properties": {
-        "provider": { "const": "supabase-github-app" },
-        "state": { "type": "string", "enum": ["planned", "connected", "paused"] },
-        "automaticBranching": { "type": "boolean" },
-        "supabaseChangesOnly": { "type": "boolean" },
-        "deployToProduction": { "type": "boolean" },
+        "provider": {
+          "const": "supabase-github-app"
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "planned",
+            "connected",
+            "paused"
+          ]
+        },
+        "automaticBranching": {
+          "type": "boolean"
+        },
+        "supabaseChangesOnly": {
+          "type": "boolean"
+        },
+        "deployToProduction": {
+          "type": "boolean"
+        },
+        "branchProtection": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state",
+            "requiredCheck",
+            "verifiedAt"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "pending",
+                "verified"
+              ]
+            },
+            "requiredCheck": {
+              "type": "string",
+              "minLength": 1
+            },
+            "verifiedAt": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              ]
+            }
+          }
+        },
+        "providerReadback": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state",
+            "verifiedAt"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "pending",
+                "verified"
+              ]
+            },
+            "verifiedAt": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              ]
+            }
+          }
+        },
         "verifiedAt": {
           "oneOf": [
-            { "type": "null" },
-            { "type": "string", "format": "date-time" }
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "format": "date-time"
+            }
           ]
         }
       }
@@ -102,37 +306,164 @@
     "baseline": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["state", "method", "migrationHead", "sourceCommit", "verifiedAt"],
+      "required": [
+        "state",
+        "method",
+        "migrationHead",
+        "sourceCommit",
+        "verifiedAt"
+      ],
       "properties": {
-        "state": { "type": "string", "enum": ["pending", "verified"] },
-        "method": { "const": "supabase-db-pull" },
-        "migrationHead": { "oneOf": [{ "type": "null" }, { "type": "string", "minLength": 1 }] },
-        "sourceCommit": { "oneOf": [{ "type": "null" }, { "type": "string", "pattern": "^[0-9a-f]{40}$" }] },
-        "verifiedAt": { "oneOf": [{ "type": "null" }, { "type": "string", "format": "date-time" }] }
+        "state": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "verified"
+          ]
+        },
+        "method": {
+          "const": "supabase-db-pull"
+        },
+        "migrationHead": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1
+            }
+          ]
+        },
+        "sourceCommit": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40}$"
+            }
+          ]
+        },
+        "verifiedAt": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "format": "date-time"
+            }
+          ]
+        }
       }
     },
     "databaseAlignment": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["relationship", "peer", "convergence", "migrationEngine", "registry"],
+      "required": [
+        "relationship",
+        "peer",
+        "convergence",
+        "migrationEngine",
+        "registry"
+      ],
       "properties": {
-        "relationship": { "const": "controlled-drift" },
-        "peer": { "const": "aws-rds-postgres" },
-        "convergence": { "const": "explicit-only" },
-        "migrationEngine": { "const": "declarative-migrations/declarative-postgres-migrate.rs" },
-        "registry": { "const": "ORESoftware/k8s-libs-and-shared-defs" }
+        "relationship": {
+          "const": "controlled-drift"
+        },
+        "peer": {
+          "const": "aws-rds-postgres"
+        },
+        "convergence": {
+          "const": "explicit-only"
+        },
+        "migrationEngine": {
+          "const": "declarative-migrations/declarative-postgres-migrate.rs"
+        },
+        "registry": {
+          "const": "ORESoftware/k8s-libs-and-shared-defs"
+        }
       }
     },
     "dependencies": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["apiContracts", "authenticationOrganization", "syncOrganization"],
+      "required": [
+        "apiContracts",
+        "authenticationOrganization",
+        "syncOrganization"
+      ],
       "properties": {
-        "apiContracts": { "const": "ORESoftware/api-docs" },
-        "authenticationOrganization": { "const": "shared-auth" },
-        "syncOrganization": { "const": "opto-sync" }
+        "apiContracts": {
+          "const": "ORESoftware/api-docs"
+        },
+        "authenticationOrganization": {
+          "const": "shared-auth"
+        },
+        "syncOrganization": {
+          "const": "opto-sync"
+        }
+      }
+    },
+    "orchestration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository",
+        "toolPath",
+        "authority",
+        "cliContract",
+        "configParser",
+        "secretLifecycle",
+        "migrationEngine",
+        "mutationMode",
+        "reconciliationTargets",
+        "verification"
+      ],
+      "properties": {
+        "repository": {
+          "$ref": "#/$defs/repository"
+        },
+        "toolPath": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "authority": {
+          "const": "non-authoritative"
+        },
+        "cliContract": {
+          "const": ".cli-flags.toml"
+        },
+        "configParser": {
+          "const": "flags-2-env/flags-2-env"
+        },
+        "secretLifecycle": {
+          "const": "oresoftware/ores-sops"
+        },
+        "migrationEngine": {
+          "const": "declarative-migrations/declarative-postgres-migrate.rs"
+        },
+        "mutationMode": {
+          "const": "plan-and-pr"
+        },
+        "reconciliationTargets": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "supabase",
+              "aws-rds-postgres"
+            ]
+          }
+        },
+        "verification": {
+          "const": "independent-per-target"
+        }
       }
     }
   }
 }
-
