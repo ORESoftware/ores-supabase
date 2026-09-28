@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": 1,
+  "repository_role": "fleet-provider-inventory-and-readback",
+  "long_term_responsibilities": [
+    "Supabase account/project inventory and public routing identifiers",
+    "provider read-back evidence and reviewed baseline status",
+    "fleet-level RLS/grant/security-advisor verification evidence",
+    "provider-specific drift metadata that does not own product schema",
+    "temporary compatibility overlays while product *-infra migration is tracked"
+  ],
+  "forbidden_responsibilities": [
+    "product-owned schema migration authority",
+    "product edge-function implementation",
+    "product deployment orchestration",
+    "application persistence contract authority",
+    "Neon deployment authority",
+    "credentials or private data"
+  ],
+  "composition": {
+    "shared_infrastructure_invariants": "ORESoftware/k8s-libs-and-shared-defs",
+    "product_persistence_contracts": "the product *-lib-core / *-interfaces authority",
+    "product_provider_deployment": "the product *-infra repository",
+    "postgres_convergence_and_drift": "declarative-migrations/declarative-postgres-migrate.rs",
+    "supabase_provider_inventory": "ORESoftware/ores-supabase",
+    "neon_provider_inventory_and_deployment": "the owning product *-infra/Neon boundary; never this repository"
+  },
+  "projects": {
+    "sznvdzulwlaghrrpiebd": {
+      "product": "3FA-app",
+      "product_infra_repository": "3FA-app/3fa-infra",
+      "overlay_state": "compatibility-freeze",
+      "allowed_files": [
+        "target.json",
+        "supabase/config.toml",
+        "supabase/functions/README.md",
+        "supabase/migrations/README.md"
+      ]
+    },
+    "szzbuljocwprjhaqnbvb": {
+      "product": "shared-auth",
+      "product_infra_repository": "shared-auth/shared-auth-infra",
+      "overlay_state": "compatibility-freeze",
+      "allowed_files": [
+        "target.json",
+        "supabase/config.toml",
+        "supabase/functions/README.md",
+        "supabase/migrations/README.md"
+      ]
+    }
+  },
+  "secret_filename_tokens": ["password", "secret", "token", "service-role", "connection", "dump", "backup"],
+  "migration_rule": "Existing compatibility overlay files may be removed or narrowed. New product-owned migration, function, seed, policy, or deployment files must be created in the owning product *-infra repository instead of here."
+}
